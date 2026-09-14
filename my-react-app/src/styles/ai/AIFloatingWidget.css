@@ -1,0 +1,101 @@
+.sudomus-ai-widget {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 9999;
+  font-family: var(--sd-font-body, "Inter", sans-serif);
+}
+
+.sudomus-ai-launcher {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--sd-gradient, linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%));
+  color: #ffffff;
+  border: none;
+  border-radius: 999px;
+  padding: 12px 20px 12px 14px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 8px 25px rgba(139, 92, 246, 0.45);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.sudomus-ai-launcher:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 12px 30px rgba(139, 92, 246, 0.55);
+}
+
+.sudomus-ai-launcher__icon-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+}
+
+.sudomus-ai-launcher__sparkle {
+  font-size: 15px;
+}
+
+.sudomus-ai-launcher__label {
+  letter-spacing: 0.02em;
+}
+
+.sudomus-ai-drawer {
+  position: fixed;
+  bottom: 84px;
+  right: 24px;
+  width: 440px;
+  height: 620px;
+  max-width: calc(100vw - 32px);
+  max-height: calc(100vh - 110px);
+  background: var(--sd-bg-elevated, #1e1729);
+  border: 1px solid var(--sd-border-strong, rgba(255, 255, 255, 0.16));
+  border-radius: 20px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(139, 92, 246, 0.2);
+  overflow: hidden;
+  z-index: 10000;
+  display: flex;
+  flex-direction: column;
+  animation: sd-drawer-in 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  backdrop-filter: blur(20px);
+}
+
+@keyframes sd-drawer-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (max-width: 480px) {
+  .sudomus-ai-widget {
+    bottom: 16px;
+    right: 16px;
+  }
+
+  .sudomus-ai-launcher {
+    padding: 12px;
+    border-radius: 50%;
+  }
+
+  .sudomus-ai-launcher__label {
+    display: none;
+  }
+
+  .sudomus-ai-drawer {
+    right: 8px;
+    bottom: 76px;
+    width: calc(100vw - 16px);
+    height: calc(100vh - 90px);
+    border-radius: 16px;
+  }
+}

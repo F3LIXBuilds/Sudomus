@@ -1,0 +1,389 @@
+/* Navbar Styles */
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  width: 100%;
+  max-width: 100%;
+  background: rgba(31, 28, 44, 0.95);
+  backdrop-filter: blur(8px);
+  padding: 1rem 2rem;
+  transition: all 0.3s ease;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  box-sizing: border-box;
+}
+
+.nav-container {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  z-index: 1001;
+  box-sizing: border-box;
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  z-index: 1001;
+  flex-shrink: 0;
+  max-width: 100%;
+}
+
+.sudomus-logo {
+  height: auto;
+  max-width: 100%;
+  width: auto;
+  filter: drop-shadow(0 0 6px #b96cff);
+  transition: transform 0.5s ease, filter 0.5s ease;
+  animation: glowPulse 3s ease-in-out infinite;
+}
+
+.nav-logo:hover .sudomus-logo {
+  transform: scale(1.05);
+  filter: drop-shadow(0 0 12px #ff4fd8);
+}
+
+/* Hamburger Menu Button */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  z-index: 2002;
+}
+
+.hamburger span {
+  width: 28px;
+  height: 3px;
+  background: linear-gradient(90deg, #8b5cf6, #ec4899);
+  border-radius: 2px;
+  transition: all 0.3s ease;
+  display: block;
+}
+
+.hamburger.active span:nth-child(1) {
+  transform: rotate(45deg) translate(6px, 6px);
+}
+
+.hamburger.active span:nth-child(2) {
+  opacity: 0;
+  transform: translateX(-20px);
+}
+
+.hamburger.active span:nth-child(3) {
+  transform: rotate(-45deg) translate(6px, -6px);
+}
+
+/* Navigation Links */
+.nav-links {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+  transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  flex-wrap: wrap;
+  flex-shrink: 1;
+}
+
+.nav-link {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: -4px;
+  left: 0;
+  background: linear-gradient(90deg, #8b5cf6, #ec4899);
+  transition: width 0.3s ease;
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+.nav-button {
+  padding: 0.5rem 1.2rem;
+  background: linear-gradient(90deg, #8b5cf6, #ec4899);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.nav-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+}
+
+/* Overlay */
+.nav-overlay {
+  display: none;
+}
+
+/* MOBILE VIEW */
+@media (max-width: 768px) {
+  .navbar {
+    padding: 0.85rem 1.25rem;
+    left: 0;
+    right: 0;
+    width: 100%;
+  }
+
+  @media (max-width: 420px) {
+    .navbar {
+      padding: 0.75rem 0.85rem;
+    }
+    .sudomus-logo {
+      width: 135px;
+      height: 44px;
+    }
+  }
+
+  .hamburger {
+    display: flex;
+  }
+
+  .nav-links {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 78%;
+    max-width: 320px;
+    height: 100vh;
+    height: 100dvh;
+    background: rgba(25, 22, 40, 0.98);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1.75rem;
+    padding: 2.5rem 1.5rem;
+    border-left: 1px solid rgba(139, 92, 246, 0.25);
+    box-shadow: -8px 0 30px rgba(0, 0, 0, 0.6);
+    z-index: 2500;
+    box-sizing: border-box;
+    overflow-y: auto;
+    overflow-x: hidden;
+    transform: translateX(100%);
+    visibility: hidden;
+    pointer-events: none;
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.35s ease;
+  }
+
+  .nav-links.active {
+    transform: translateX(0);
+    visibility: visible;
+    pointer-events: all;
+  }
+
+  .nav-link {
+    font-size: 1.1rem;
+    width: 100%;
+    text-align: center;
+  }
+
+  .nav-button {
+    width: 80%;
+    font-size: 1rem;
+    padding: 0.75rem 1.5rem;
+  }
+
+  .nav-overlay {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    z-index: 2400;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    box-sizing: border-box;
+  }
+
+  .nav-overlay.active,
+  .nav-links.active ~ .nav-overlay {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: all;
+  }
+}
+
+/* ── Profile Avatar ── */
+.nav-avatar-wrapper {
+  position: relative;
+}
+
+.nav-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #8b5cf6, #ec4899);
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.9rem;
+  border: 2px solid rgba(255, 255, 255, 0.25);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  flex-shrink: 0;
+  letter-spacing: 0.5px;
+}
+
+.nav-avatar:hover {
+  transform: scale(1.08);
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.4), 0 4px 16px rgba(139, 92, 246, 0.3);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+/* ── Avatar Dropdown ── */
+.avatar-dropdown {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  min-width: 200px;
+  background: rgba(25, 22, 40, 0.97);
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(16px);
+  overflow: hidden;
+  animation: dropdownFadeIn 0.2s ease;
+  z-index: 3000;
+}
+
+@keyframes dropdownFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.97);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.avatar-dropdown-header {
+  padding: 0.85rem 1rem 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.avatar-dropdown-name {
+  font-weight: 600;
+  color: #fff;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.avatar-dropdown-email {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.45);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.avatar-dropdown-divider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.08);
+  margin: 0;
+}
+
+.avatar-dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  width: 100%;
+  padding: 0.7rem 1rem;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 0.875rem;
+  font-weight: 500;
+  background: none;
+  border: none;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.18s ease, color 0.18s ease;
+  text-align: left;
+  box-sizing: border-box;
+}
+
+.avatar-dropdown-item:hover {
+  background: rgba(139, 92, 246, 0.15);
+  color: #fff;
+}
+
+.avatar-dropdown-logout {
+  color: rgba(236, 72, 153, 0.85);
+}
+
+.avatar-dropdown-logout:hover {
+  background: rgba(236, 72, 153, 0.12);
+  color: #ec4899;
+}
+
+.dropdown-icon {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+/* Mobile avatar adjustments */
+@media (max-width: 768px) {
+  .nav-avatar-wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .avatar-dropdown {
+    position: static;
+    width: 100%;
+    min-width: unset;
+    border-radius: 10px;
+    animation: none;
+  }
+}
+
+@keyframes glowPulse {
+
+  0%,
+  100% {
+    filter: drop-shadow(0 0 6px #b96cff);
+  }
+
+  50% {
+    filter: drop-shadow(0 0 12px #ff4fd8);
+  }
+}

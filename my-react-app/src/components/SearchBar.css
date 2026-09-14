@@ -1,0 +1,49 @@
+.search-container {
+  position: relative;
+  margin-top: 1.5rem;
+  margin-left: 4rem; /* aligns it under the "Connecting Real Estate..." text */
+  text-align: left;
+}
+
+.search-button {
+  background: #6c63ff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 18px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.search-button:hover {
+  background: #5a54e6;
+}
+
+.filters {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+  animation: fadeIn 0.3s ease forwards;
+}
+
+.filters select {
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background: white;
+  font-size: 14px;
+  min-width: 150px;
+  cursor: pointer;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

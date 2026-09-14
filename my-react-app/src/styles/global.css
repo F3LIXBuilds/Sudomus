@@ -1,0 +1,47 @@
+/* src/styles/globals.css */
+
+body {
+  background: linear-gradient(to bottom right, #0f172a, #4c1d95, #0f172a);
+  color: white;
+  margin: 0;
+  font-family: sans-serif;
+}
+
+/* Glass card */
+.glass-card {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 1rem;
+}
+
+/* Gradient button */
+.gradient-button {
+  background: linear-gradient(90deg, #7c3aed, #2563eb);
+  color: white;
+  font-weight: 500;
+  border-radius: 0.75rem;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.gradient-button:hover {
+  background: linear-gradient(90deg, #6d28d9, #1d4ed8);
+}
+
+/* Gradient text */
+.gradient-text {
+  background: linear-gradient(90deg, #a78bfa, #3b82f6);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Wave divider */
+.wave-divider {
+  background: linear-gradient(90deg, transparent, rgba(147, 51, 234, 0.3), transparent);
+  height: 2px;
+  margin: 2rem 0;
+}

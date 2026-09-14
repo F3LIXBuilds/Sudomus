@@ -1,0 +1,213 @@
+/* NotFound.css - SuDomus Deep Violet 404 Experience */
+
+.not-found-page {
+  min-height: 100vh;
+  background-color: #0b0714;
+  background-image: 
+    radial-gradient(at 20% 20%, rgba(99, 102, 241, 0.2) 0px, transparent 50%),
+    radial-gradient(at 80% 80%, rgba(236, 72, 153, 0.15) 0px, transparent 50%),
+    radial-gradient(at 50% 50%, rgba(139, 92, 246, 0.1) 0px, transparent 60%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6.5rem 1.5rem 3rem 1.5rem;
+  box-sizing: border-box;
+}
+
+.not-found-container {
+  max-width: 680px;
+  width: 100%;
+  background: rgba(22, 16, 38, 0.8);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(139, 92, 246, 0.25);
+  border-radius: 28px;
+  padding: 3.5rem 2.5rem;
+  text-align: center;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+  position: relative;
+  overflow: hidden;
+}
+
+.not-found-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #ec4899, #8b5cf6, #3b82f6);
+}
+
+.not-found-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(239, 68, 68, 0.15);
+  border: 1px solid rgba(239, 68, 68, 0.35);
+  color: #fca5a5;
+  padding: 0.35rem 0.9rem;
+  border-radius: 9999px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  margin-bottom: 2rem;
+  text-transform: uppercase;
+}
+
+.not-found-illustration {
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+
+.glitch-number {
+  font-size: 7.5rem;
+  font-weight: 900;
+  line-height: 1;
+  background: linear-gradient(135deg, #a78bfa 0%, #ec4899 50%, #38bdf8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -0.04em;
+  filter: drop-shadow(0 10px 30px rgba(139, 92, 246, 0.4));
+  user-select: none;
+}
+
+.not-found-title {
+  font-size: 2.25rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin: 0 0 1rem 0;
+  letter-spacing: -0.02em;
+}
+
+.not-found-description {
+  font-size: 1.05rem;
+  color: #94a3b8;
+  line-height: 1.65;
+  max-width: 520px;
+  margin: 0 auto 2.5rem auto;
+}
+
+.not-found-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+  margin-bottom: 2.5rem;
+}
+
+.btn-primary-explore {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0.9rem 1.8rem;
+  background: linear-gradient(135deg, #7c3aed 0%, #6366f1 100%);
+  color: #ffffff;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 1rem;
+  text-decoration: none;
+  transition: all 0.25s ease;
+  box-shadow: 0 8px 24px -6px rgba(124, 58, 237, 0.5);
+}
+
+.btn-primary-explore:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px -4px rgba(124, 58, 237, 0.65);
+}
+
+.btn-secondary-home {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0.9rem 1.8rem;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #e2e8f0;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 1rem;
+  text-decoration: none;
+  transition: all 0.25s ease;
+}
+
+.btn-secondary-home:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(139, 92, 246, 0.5);
+  color: #ffffff;
+  transform: translateY(-2px);
+}
+
+.not-found-quick-links {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: 1.5rem;
+}
+
+.quick-links-label {
+  display: block;
+  font-size: 0.85rem;
+  color: #64748b;
+  margin-bottom: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+}
+
+.quick-links-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.quick-links-row a {
+  color: #c4b5fd;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.quick-links-row a:hover {
+  color: #ffffff;
+  text-decoration: underline;
+}
+
+.quick-links-row .separator {
+  color: #475569;
+}
+
+/* Mobile Responsive */
+@media (max-width: 640px) {
+  .not-found-container {
+    padding: 2.5rem 1.5rem;
+    border-radius: 20px;
+  }
+
+  .glitch-number {
+    font-size: 5.5rem;
+  }
+
+  .not-found-title {
+    font-size: 1.65rem;
+  }
+
+  .not-found-description {
+    font-size: 0.95rem;
+  }
+
+  .not-found-actions {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .btn-primary-explore,
+  .btn-secondary-home {
+    width: 100%;
+    justify-content: center;
+    box-sizing: border-box;
+  }
+}

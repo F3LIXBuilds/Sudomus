@@ -1,0 +1,82 @@
+:root {
+  /* Color — SuDomus purple/pink identity, on a warm-dark base rather than pure black */
+  --sd-bg: #17111f;
+  --sd-bg-elevated: #1e1729;
+  --sd-surface: rgba(255, 255, 255, 0.055);
+  --sd-surface-strong: rgba(255, 255, 255, 0.09);
+  --sd-border: rgba(255, 255, 255, 0.09);
+  --sd-border-strong: rgba(255, 255, 255, 0.16);
+
+  --sd-purple: #8b5cf6;
+  --sd-purple-deep: #6d28d9;
+  --sd-pink: #ec4899;
+  --sd-gradient: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);
+
+  --sd-text: #f3eefb;
+  --sd-text-muted: #b6aecb;
+  --sd-text-faint: #857c9e;
+
+  --sd-success: #34d399;
+  --sd-warn: #fbbf24;
+
+  --sd-radius-lg: 22px;
+  --sd-radius-md: 16px;
+  --sd-radius-sm: 10px;
+
+  --sd-font-display: "Sora", "Inter", sans-serif;
+  --sd-font-body: "Inter", "Sora", sans-serif;
+
+  color-scheme: dark;
+}
+
+.sudomus-ai,
+.app-shell-ai {
+  box-sizing: border-box;
+  font-family: var(--sd-font-body);
+  color: var(--sd-text);
+  -webkit-font-smoothing: antialiased;
+}
+
+.sudomus-ai *,
+.app-shell-ai * {
+  box-sizing: border-box;
+}
+
+.app-shell-ai {
+  min-height: calc(100vh - 80px);
+  width: 100%;
+  background:
+    radial-gradient(circle at 15% 0%, rgba(139, 92, 246, 0.18), transparent 55%),
+    radial-gradient(circle at 100% 20%, rgba(236, 72, 153, 0.14), transparent 50%),
+    var(--sd-bg);
+  display: flex;
+  justify-content: center;
+}
+
+::selection {
+  background: rgba(139, 92, 246, 0.4);
+}
+
+/* Scrollbar — subtle, not the browser default */
+*::-webkit-scrollbar {
+  width: 8px;
+}
+*::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.14);
+  border-radius: 8px;
+}
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+button {
+  font-family: inherit;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}

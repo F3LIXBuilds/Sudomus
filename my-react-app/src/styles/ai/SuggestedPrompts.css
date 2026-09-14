@@ -1,0 +1,33 @@
+.suggested-prompts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
+.suggested-prompts__chip {
+  border: 1px solid var(--sd-border);
+  background: var(--sd-surface);
+  color: var(--sd-text);
+  font-size: 13.5px;
+  padding: 10px 16px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: border-color 0.15s ease, transform 0.15s ease, background 0.15s ease;
+  backdrop-filter: blur(6px);
+}
+
+.suggested-prompts__chip:hover {
+  border-color: var(--sd-purple);
+  background: var(--sd-surface-strong);
+  transform: translateY(-1px);
+}
+
+.suggested-prompts__chip:active {
+  transform: translateY(0);
+}
+
+.suggested-prompts__chip:focus-visible {
+  outline: 2px solid var(--sd-purple);
+  outline-offset: 2px;
+}

@@ -1,0 +1,142 @@
+.sudomus-ai {
+  width: 100%;
+  max-width: 860px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 0 20px;
+}
+
+.sudomus-ai__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 4px 16px;
+  border-bottom: 1px solid var(--sd-border);
+  flex-shrink: 0;
+}
+
+.sudomus-ai__brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.sudomus-ai__mark {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: var(--sd-gradient);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--sd-font-display);
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: 0.02em;
+  color: #17111f;
+  box-shadow: 0 6px 20px rgba(139, 92, 246, 0.35);
+}
+
+.sudomus-ai__title {
+  font-family: var(--sd-font-display);
+  font-size: 19px;
+  font-weight: 600;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.sudomus-ai__subtitle {
+  margin: 2px 0 0;
+  font-size: 13px;
+  color: var(--sd-text-muted);
+}
+
+.sudomus-ai__status {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 12.5px;
+  color: var(--sd-text-muted);
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--sd-border);
+  background: var(--sd-surface);
+}
+
+.sudomus-ai__status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--sd-success);
+  box-shadow: 0 0 0 3px rgba(52, 211, 153, 0.18);
+}
+
+.sudomus-ai__status--offline .sudomus-ai__status-dot {
+  background: var(--sd-warn);
+  box-shadow: 0 0 0 3px rgba(251, 191, 36, 0.18);
+  animation: sd-pulse 1.4s ease-in-out infinite;
+}
+
+.sudomus-ai__actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sudomus-ai__reset-btn {
+  background: var(--sd-surface);
+  border: 1px solid var(--sd-border);
+  color: var(--sd-text-muted);
+  font-size: 12px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.sudomus-ai__reset-btn:hover {
+  background: var(--sd-surface-strong);
+  color: var(--sd-text);
+}
+
+.sudomus-ai__close-btn {
+  background: var(--sd-surface);
+  border: 1px solid var(--sd-border);
+  color: var(--sd-text-muted);
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.sudomus-ai__close-btn:hover {
+  background: rgba(239, 68, 68, 0.15);
+  color: #ef4444;
+  border-color: rgba(239, 68, 68, 0.3);
+}
+
+.sudomus-ai--floating {
+  max-width: 100%;
+  height: 100%;
+  padding: 0 16px;
+}
+
+@keyframes sd-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+@media (max-width: 640px) {
+  .sudomus-ai {
+    padding: 0 12px;
+  }
+  .sudomus-ai__subtitle {
+    display: none;
+  }
+}

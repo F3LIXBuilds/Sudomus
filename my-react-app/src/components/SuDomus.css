@@ -1,0 +1,23 @@
+.sudomus-logo {
+  cursor: pointer;
+  transition: transform 0.4s ease, filter 0.4s ease;
+}
+
+.sudomus-logo:hover {
+  transform: scale(1.05);
+  filter: drop-shadow(0 0 10px rgba(139, 92, 246, 0.5));
+}
+
+/* Optional subtle pulse after animation */
+@keyframes logoPulse {
+  0%, 100% {
+    filter: drop-shadow(0 0 6px rgba(236, 72, 153, 0.5));
+  }
+  50% {
+    filter: drop-shadow(0 0 12px rgba(139, 92, 246, 0.8));
+  }
+}
+
+.sudomus-logo {
+  animation: logoPulse 3s infinite ease-in-out 2s;
+}

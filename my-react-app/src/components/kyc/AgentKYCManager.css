@@ -1,0 +1,94 @@
+.kyc-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.kyc-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.kyc-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.kyc-form-group label {
+  font-weight: 600;
+  color: #333;
+}
+
+.kyc-form-group input,
+.kyc-form-group select {
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.document-upload {
+  border: 2px dashed #ccc;
+  padding: 2rem;
+  text-align: center;
+  border-radius: 4px;
+  background: #f8f9fa;
+  cursor: pointer;
+  transition: border-color 0.3s ease;
+}
+
+.document-upload:hover {
+  border-color: #007bff;
+}
+
+.verification-status {
+  padding: 1rem;
+  margin: 1rem 0;
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+.status-pending {
+  background: #fff3cd;
+  color: #856404;
+  border: 1px solid #ffeeba;
+}
+
+.status-verified {
+  background: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.status-rejected {
+  background: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+.kyc-submit-btn {
+  background: #007bff;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.kyc-submit-btn:hover {
+  background: #0056b3;
+}
+
+.kyc-submit-btn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}

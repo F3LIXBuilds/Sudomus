@@ -1,0 +1,33 @@
+/* src/components/auth/AuthModal.css */
+.auth-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+}
+
+.auth-modal {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px);
+  padding: 2rem;
+  border-radius: 1rem;
+  position: relative;
+  width: 100%;
+  max-width: 24rem;
+}
+
+/* ... rest of your AuthModal styles ... */
+.auth-modal-close-button {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 1.5rem;
+  cursor: pointer;
+}

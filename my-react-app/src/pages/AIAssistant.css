@@ -1,0 +1,12 @@
+.ai-page-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--sd-bg, #17111f);
+}
+
+.ai-page-container .app-shell-ai {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
