@@ -9,9 +9,9 @@ This guide details the complete production deployment procedure for SuDomus acro
 | Layer | Service / Tech | Purpose |
 | :--- | :--- | :--- |
 | **Frontend** | React (Vite) on **Vercel** | Client UI, marketplace, routing, AI floating widget |
-| **Backend** | Node.js / Express on **Render** | REST API, JWT auth, Gemini AI orchestration |
+| **Backend** | Node.js / Express on **Render** | REST API, JWT auth, Claude AI orchestrator |
 | **Database** | PostgreSQL on **Neon** | Serverless relational data storage |
-| **AI Engine** | Google Gemini | Property recommendation & conversational search |
+| **AI Engine** | Anthropic Claude | Grounded property recommendation & conversational search |
 | **Storage** | Cloudinary (Optional) / Base64 | Listing image uploads |
 
 ---
@@ -57,8 +57,8 @@ Add the following in Render under **Environment**:
 | `DATABASE_URL` | `postgresql://user:pass@ep-xyz.aws.neon.tech/neondb?sslmode=require` | Connection string to Neon PostgreSQL |
 | `JWT_SECRET` | `replace_with_a_64_character_random_secret` | Secret key for signing & verifying JWTs |
 | `FRONTEND_URL` | `https://your-sudomus-app.vercel.app` | Allowed frontend origin for CORS (no trailing slash) |
-| `GEMINI_API_KEY` | `AQ.Ab8RN6LFxMR4WG...` | Google Gemini API key |
-| `GEMINI_MODEL` | `gemini-3.6-flash` | Gemini model name |
+| `ANTHROPIC_API_KEY` | `sk-ant-api03-...` | Anthropic Claude API key |
+| `ANTHROPIC_MODEL` | `claude-3-5-sonnet-20241022` | Anthropic Claude model name |
 | `CLOUDINARY_CLOUD_NAME` | `(optional)` | Cloudinary cloud name |
 | `CLOUDINARY_API_KEY` | `(optional)` | Cloudinary API key |
 | `CLOUDINARY_API_SECRET` | `(optional)` | Cloudinary API secret |
