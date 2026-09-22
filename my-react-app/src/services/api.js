@@ -65,6 +65,11 @@ export const adminService = {
   approveKyc: (id) => fetch(`${API_URL}/admin/verification/${id}/approve`, { method: 'POST', headers: getHeaders() }).then(res => res.json()),
   rejectKyc: (id, reason) => fetch(`${API_URL}/admin/verification/${id}/reject`, { method: 'POST', headers: getHeaders(), body: JSON.stringify({ reason }) }).then(res => res.json()),
   getAuditLogs: () => fetch(`${API_URL}/admin/audit`, { headers: getHeaders() }).then(res => res.json()),
+  getKycDocumentUrl: (id) => fetch(`${API_URL}/kyc/admin/documents/${id}/url`, { headers: getHeaders() }).then(async res => {
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.message || 'Failed to fetch document URL');
+    return data;
+  }),
 };
 
 export const listingsService = {
@@ -228,6 +233,38 @@ export const dashboardService = {
     }),
 };
 
+
+export const messagesService = {
+  getConversations: () =>
+    fetch(`${API_URL}/messages/conversations`, {
+      headers: getHeaders(false),
+    }).then(async res => {
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || 'Failed to fetch conversations');
+      return data;
+    }),
+
+  getConversation: (id) =>
+    fetch(`${API_URL}/messages/conversations/${id}`, {
+      headers: getHeaders(false),
+    }).then(async res => {
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || 'Failed to fetch conversation');
+      return data;
+    }),
+
+  sendMessage: (id, message) =>
+    fetch(`${API_URL}/messages/conversations/${id}`, {
+      method: 'POST',
+      headers: getHeaders(),
+      body: JSON.stringify({ message }),
+    }).then(async res => {
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || 'Failed to send message');
+      return data;
+    }),
+};
+
 export const aiService = {
   sendChatMessage: (message, conversationId) =>
     fetch(`${API_URL}/ai/chat`, {
@@ -241,4 +278,39 @@ export const aiService = {
       }
       return data;
     }),
+};
+export const kycService = {
+  getMyKyc: () =>
+    fetch(`${API_URL}/kyc`, {
+      headers: getHeaders(false),
+    }).then(async res => {
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.message || 'Failed to load KYC records');
+      }
+
+      return data;
+    }),
+
+  uploadDocument: (documentType, file) => {
+    const formData = new FormData();
+
+    formData.append('documentType', documentType);
+    formData.append('document', file);
+
+    return fetch(`${API_URL}/kyc/documents`, {
+      method: 'POST',
+      headers: getHeaders(false),
+      body: formData,
+    }).then(async res => {
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.message || 'Failed to upload document');
+      }
+
+      return data;
+    });
+  },
 };

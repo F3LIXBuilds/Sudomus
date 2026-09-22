@@ -312,7 +312,7 @@ export default function Dashboard() {
                 ) : (
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
                     {messages.slice(0, 5).map(msg => (
-                      <div key={msg.id} style={{ padding: '0.75rem', borderRadius: '8px', background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.05)' }}>
+                      <div key={msg.id} onClick={() => navigate(`/messages?conversation=${msg.conversation_id}`)} role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') navigate(`/messages?conversation=${msg.conversation_id}`); }} style={{ padding: '0.75rem', borderRadius: '8px', background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.05)', cursor: 'pointer' }}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px', fontSize: '0.85rem' }}>
                           <span style={{ fontWeight: 'bold' }}>{msg.sender_name}</span>
                           <span style={{ color: '#a0aec0' }}>{new Date(msg.created_at).toLocaleDateString()}</span>
@@ -393,6 +393,35 @@ export default function Dashboard() {
           </div>
         );
 
+      case 'notifications':
+        return (
+          <div className="dashboard-content">
+            <div className="dashboard-header">
+              <h2 className="dashboard-title">Notifications</h2>
+            </div>
+            <div style={{ background: 'var(--card-bg, #1a1f2c)', padding: '1.5rem', borderRadius: '12px', border: '1px solid var(--border-color, #2d3748)' }}>
+              {notifications.length === 0 ? (
+                <p style={{ color: '#a0aec0', fontSize: '0.95rem' }}>You have no notifications.</p>
+              ) : (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                  {notifications.map(notif => (
+                    <div key={notif.id} style={{ padding: '1rem', borderRadius: '8px', background: notif.is_read ? 'rgba(255,255,255,0.02)' : 'rgba(99,102,241,0.08)', border: '1px solid rgba(255,255,255,0.05)' }}>
+                      <h4 style={{ fontSize: '1.05rem', margin: 0, fontWeight: notif.is_read ? '500' : 'bold', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                        {notif.title}
+                        {!notif.is_read && <span style={{ fontSize: '0.7rem', backgroundColor: '#6366f1', color: '#fff', padding: '2px 6px', borderRadius: '12px' }}>New</span>}
+                      </h4>
+                      <p style={{ fontSize: '0.9rem', color: '#cbd5e1', margin: '0.5rem 0 0 0' }}>{notif.body}</p>
+                      <div style={{ fontSize: '0.75rem', color: '#64748b', marginTop: '0.5rem' }}>
+                        {new Date(notif.created_at).toLocaleString()}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        );
+
       case 'profile':
         return (
           <ProfileSettings
@@ -413,11 +442,22 @@ export default function Dashboard() {
     }
   };
 
+  const handleTabChange = (tab) => {
+    setMobileOpen(false);
+
+    if (tab === 'messages') {
+      navigate('/messages');
+      return;
+    }
+
+    setActiveTab(tab);
+  };
+
   return (
     <div className="dashboard">
       <Sidebar
         activeTab={activeTab}
-        onTabChange={(tab) => { setActiveTab(tab); setMobileOpen(false); }}
+        onTabChange={handleTabChange}
         userType={profile?.user_type}
         isCollapsed={isCollapsed}
         onToggle={() => setIsCollapsed(prev => !prev)}

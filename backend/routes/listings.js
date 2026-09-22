@@ -583,6 +583,22 @@ router.post('/:id/favorite', authMiddleware, async (req, res) => {
         'INSERT INTO favorites (id, user_id, listing_id, created_at) VALUES ($1, $2, $3, NOW())',
         [newId, userId, id]
       );
+
+      // Notify listing owner
+      const listingRes = await pool.query('SELECT user_id, title FROM listings WHERE id = $1', [id]);
+      if (listingRes.rows.length > 0) {
+        const listingOwner = listingRes.rows[0].user_id;
+        const listingTitle = listingRes.rows[0].title;
+        
+        if (listingOwner !== userId) {
+          const notifId = crypto.randomUUID();
+          await pool.query(
+            'INSERT INTO notifications (id, user_id, title, body, is_read, created_at) VALUES ($1, $2, $3, $4, false, NOW())',
+            [notifId, listingOwner, 'New Favorite', `Someone just favorited your property: ${listingTitle}`]
+          );
+        }
+      }
+
       res.json({ favorited: true });
     }
   } catch (err) {

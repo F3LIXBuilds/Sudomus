@@ -195,7 +195,7 @@ router.post('/verification/:id/approve', async (req, res) => {
     await pool.query('BEGIN');
 
     const kycRes = await pool.query(
-      `UPDATE kyc_documents SET status = 'verified' WHERE id = $1 RETURNING user_id`,
+      `UPDATE kyc_documents SET status = 'approved' WHERE id = $1 RETURNING user_id`,
       [id]
     );
 

@@ -17,6 +17,8 @@ import { AuthProvider } from './context/AuthContext';
 import AIAssistant from './pages/AIAssistant';
 import AIFloatingWidget from './components/ai/AIFloatingWidget';
 import About from './pages/About';
+import Messages from './pages/Messages';
+import VerifyEmail from './pages/VerifyEmail';
 
 
 function AppContent() {
@@ -50,6 +52,7 @@ function AppContent() {
         {/* Auth Routes */}
         <Route path="/login" element={<Auth />} />
         <Route path="/signup" element={<Auth />} />
+        <Route path="/verify-email" element={<VerifyEmail />} />
 
         {/* User Dashboard */}
         <Route
@@ -67,6 +70,10 @@ function AppContent() {
         <Route
           path="/admin-dashboard"
           element={user?.role === 'admin' ? <AdminDashboard /> : <Navigate to="/dashboard" replace />}
+        />
+        <Route
+          path="/messages"
+          element={user ? <Messages /> : <Navigate to="/login" replace />}
         />
 
         {/* Properties Page */}

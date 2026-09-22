@@ -11,18 +11,23 @@ import {
   ChevronLeft,
   ChevronRight,
   LayoutDashboard,
-  ArrowLeft
+  ArrowLeft,
+  MessageSquare,
+  ShieldCheck,
+  Bell
 } from 'lucide-react';
 
 export function Sidebar({ activeTab, onTabChange, userType, isCollapsed, onToggle, mobileOpen, onMobileClose }) {
   const navigate = useNavigate();
-  const { logout } = useAuth();
+  const { user, logout } = useAuth();
 
   const navItems = [
     { id: 'overview', label: 'Overview', icon: LayoutDashboard },
     { id: 'properties', label: 'Properties', icon: Home },
     { id: 'wallet', label: 'Wallet', icon: Wallet },
     { id: 'profile', label: 'Profile', icon: User },
+    { id: 'messages', label: 'Messages', icon: MessageSquare },
+    { id: 'notifications', label: 'Notifications', icon: Bell },
     ...(userType === 'agent' ? [{ id: 'kyc', label: 'KYC Verification', icon: FileCheck }] : [])
   ];
 
@@ -62,6 +67,17 @@ export function Sidebar({ activeTab, onTabChange, userType, isCollapsed, onToggl
         </nav>
 
         <div className="sidebar-footer">
+          {user?.role === 'admin' && (
+          <button
+            className="sidebar-nav-item"
+            onClick={() => navigate('/admin-dashboard')}
+            title={isCollapsed ? 'Admin Panel' : ''}
+            style={{ marginBottom: '0.5rem' }}
+          >
+            <ShieldCheck size={20} className="nav-icon" />
+            {!isCollapsed && <span className="nav-label">Admin Panel</span>}
+          </button>
+          )}
           <button
             className="sidebar-nav-item"
             onClick={() => navigate('/')}

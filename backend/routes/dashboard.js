@@ -91,6 +91,13 @@ router.get('/agent', authMiddleware, authorizeAgentOrSeller, async (req, res) =>
       LIMIT 5
     `, [userId]);
 
+    const notificationsListPromise = pool.query(`
+      SELECT * FROM notifications 
+      WHERE user_id = $1 
+      ORDER BY created_at DESC 
+      LIMIT 10
+    `, [userId]);
+
     // Await all queries in parallel
     const [
       countsRes,
@@ -101,7 +108,8 @@ router.get('/agent', authMiddleware, authorizeAgentOrSeller, async (req, res) =>
       notificationsCountRes,
       recentListingsRes,
       recentMessagesRes,
-      upcomingAppointmentsRes
+      upcomingAppointmentsRes,
+      notificationsListRes
     ] = await Promise.all([
       countsPromise,
       viewsPromise,
@@ -111,7 +119,8 @@ router.get('/agent', authMiddleware, authorizeAgentOrSeller, async (req, res) =>
       notificationsCountPromise,
       recentListingsPromise,
       recentMessagesPromise,
-      upcomingAppointmentsPromise
+      upcomingAppointmentsPromise,
+      notificationsListPromise
     ]);
 
     const counts = countsRes.rows[0] || { total: 0, published: 0, draft: 0, pending: 0, sold: 0 };
@@ -131,7 +140,8 @@ router.get('/agent', authMiddleware, authorizeAgentOrSeller, async (req, res) =>
       },
       recentListings: recentListingsRes.rows,
       recentMessages: recentMessagesRes.rows,
-      upcomingAppointments: upcomingAppointmentsRes.rows
+      upcomingAppointments: upcomingAppointmentsRes.rows,
+      notifications: notificationsListRes.rows
     });
   } catch (err) {
     console.error('Agent analytics error:', err);

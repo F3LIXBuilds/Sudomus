@@ -137,7 +137,12 @@ export default function AgentProfile() {
 
             <div className="agent-hero-info">
               <div className="agent-title-row">
-                <h1 className="agent-name">{agentData.name}</h1>
+                <h1 className="agent-name" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  {agentData.name}
+                  {agentData.verified && (
+                    <ShieldCheck size={24} color="#10b981" title="Verified Agent" />
+                  )}
+                </h1>
                 {agentData.verified ? (
                   <span className="agent-verified-pill">
                     <CheckCircle2 size={15} /> Verified Agent

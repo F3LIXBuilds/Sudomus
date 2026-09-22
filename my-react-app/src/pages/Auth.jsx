@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Facebook, Github, Linkedin, Chrome } from 'lucide-react';
+import { Facebook, Github, Linkedin, Chrome, Mail, ArrowLeft, RefreshCw } from 'lucide-react';
 import Navbar from '../components/Navbar';
 import { authService } from '../services/api';
 import { useAuth } from '../hooks/useAuth';
+import config from '../config';
 import './Auth.css';
 
 export default function Auth() {
@@ -11,7 +12,9 @@ export default function Auth() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
-
+    const [signupSuccess, setSignupSuccess] = useState(false);
+    const [resendLoading, setResendLoading] = useState(false);
+    const [devVerifyUrl, setDevVerifyUrl] = useState('');
     const { setUser } = useAuth();
 
     const [formData, setFormData] = useState({
@@ -35,6 +38,7 @@ export default function Auth() {
         setFormData(prev => ({ ...prev, [name]: value }));
         setError('');
         setSuccessMessage('');
+        setSignupSuccess(false);
     };
 
     const validateSignup = () => {
@@ -49,6 +53,30 @@ export default function Auth() {
         return true;
     };
 
+    const handleResend = async () => {
+        setResendLoading(true);
+        setError('');
+        setSuccessMessage('');
+        try {
+            const res = await fetch(`${config.API_URL}/api/auth/resend-verification`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: formData.email })
+            });
+            const data = await res.json();
+            if (data?.developmentVerificationUrl) {
+                setDevVerifyUrl(data.developmentVerificationUrl);
+            } else {
+                setDevVerifyUrl('');
+            }
+            setSuccessMessage(data?.message || 'A new verification email has been sent.');
+        } catch (err) {
+            setError('Failed to resend verification email.');
+        } finally {
+            setResendLoading(false);
+        }
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
@@ -60,16 +88,21 @@ export default function Auth() {
 
         try {
             if (isSignUp) {
-                await authService.register(
+                const result = await authService.register(
                     formData.name,
                     formData.email,
                     formData.password,
                     formData.role
                 );
 
-                setSuccessMessage('Account created successfully! Please sign in.');
-                setIsSignUp(false);
-                navigate('/login');
+                if (result?.developmentVerificationUrl) {
+                    setDevVerifyUrl(result.developmentVerificationUrl);
+                } else {
+                    setDevVerifyUrl('');
+                }
+
+                setSignupSuccess(true);
+                // Do NOT navigate to login yet. Let them see the success screen.
             } else {
                 const result = await authService.login(
                     formData.email,
@@ -84,7 +117,17 @@ export default function Auth() {
                 localStorage.setItem('token', result.token);
 
                 // Redirect to dashboard
-                window.location.href = '/dashboard';
+              // Redirect based on user role
+if (result.user?.role === 'admin') {
+    window.location.href = '/admin-dashboard';
+} else if (
+    result.user?.role === 'agent' ||
+    result.user?.role === 'seller'
+) {
+    window.location.href = '/agent-dashboard';
+} else {
+    window.location.href = '/dashboard';
+}
             }
         } catch (err) {
             setError(
@@ -100,6 +143,7 @@ export default function Auth() {
     const switchMode = (signUp) => {
         setIsSignUp(signUp);
         setError('');
+        setSignupSuccess(false);
         navigate(signUp ? '/signup' : '/login');
     };
 
@@ -139,6 +183,61 @@ export default function Auth() {
 
                     {/* SIGN UP */}
                     <div className="form-container sign-up">
+                        {signupSuccess ? (
+                            <div className="auth-verification-card">
+                                <div className="auth-verify-icon-wrapper">
+                                    <Mail size={32} />
+                                </div>
+                                <h1 style={{ marginBottom: '6px', fontSize: '24px' }}>Check Your Email</h1>
+                                <p className="auth-verify-desc" style={{ margin: '0 0 8px 0' }}>
+                                    We sent a verification link to:
+                                </p>
+                                <div className="auth-verify-email-badge">
+                                    {formData.email || 'your email'}
+                                </div>
+                                <p className="auth-verify-desc">
+                                    Please click the link in the email to activate your SuDomus account.
+                                </p>
+
+                                {successMessage && <p className="auth-success-msg" style={{ width: '100%', maxWidth: '310px' }}>{successMessage}</p>}
+                                {error && <p className="auth-error-msg" style={{ width: '100%', maxWidth: '310px' }}>{error}</p>}
+
+                                <div className="auth-verify-actions">
+                                    <button 
+                                        type="button" 
+                                        className="auth-verify-btn-resend" 
+                                        onClick={handleResend}
+                                        disabled={resendLoading}
+                                    >
+                                        <RefreshCw size={15} className={resendLoading ? 'spinning' : ''} />
+                                        {resendLoading ? 'Resending...' : 'Resend Verification Email'}
+                                    </button>
+
+                                    <button 
+                                        type="button" 
+                                        className="auth-verify-btn-secondary" 
+                                        onClick={() => switchMode(false)}
+                                    >
+                                        <ArrowLeft size={15} />
+                                        Back to Sign In
+                                    </button>
+                                </div>
+
+                                {devVerifyUrl && (
+                                    <div className="auth-dev-verify-banner">
+                                        <span className="auth-dev-title">Email verification is currently in development mode.</span>
+                                        <button
+                                            type="button"
+                                            className="auth-dev-verify-btn"
+                                            onClick={() => window.location.href = devVerifyUrl}
+                                        >
+                                            Verify Email
+                                        </button>
+                                        <span className="auth-dev-subtitle">This link is shown because email delivery is not configured yet.</span>
+                                    </div>
+                                )}
+                            </div>
+                        ) : (
                         <form onSubmit={handleSubmit}>
                             <h1>Create Account</h1>
                             <SocialIcons />
@@ -217,6 +316,7 @@ export default function Auth() {
                                 </button>
                             </div>
                         </form>
+                        )}
                     </div>
 
                     {/* SIGN IN */}

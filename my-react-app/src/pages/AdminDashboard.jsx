@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../hooks/useAuth';
+import { useNavigate } from 'react-router-dom';
 import { adminService } from '../services/api';
 import Navbar from '../components/Navbar';
+import { LayoutDashboard, FileText, FileCheck, Activity, MessageSquare, Users, Home, ShieldCheck } from 'lucide-react';
 import './AdminDashboard.css';
 
 export default function AdminDashboard() {
   const { user } = useAuth();
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('overview');
 
   if (user?.role !== 'admin') {
@@ -17,31 +20,39 @@ export default function AdminDashboard() {
       <Navbar />
       <div className="admin-dashboard-layout">
         <aside className="admin-sidebar">
-          <h2>Admin Panel</h2>
+          <div className="admin-sidebar-header">
+            <ShieldCheck size={28} className="admin-sidebar-logo" />
+            <h2>Admin Panel</h2>
+          </div>
           <nav>
             <button 
               className={activeTab === 'overview' ? 'active' : ''} 
               onClick={() => setActiveTab('overview')}
             >
-              Overview
+              <LayoutDashboard size={20} /> Overview
             </button>
             <button 
               className={activeTab === 'listings' ? 'active' : ''} 
               onClick={() => setActiveTab('listings')}
             >
-              Listings Queue
+              <FileText size={20} /> Listings Queue
             </button>
             <button 
               className={activeTab === 'verification' ? 'active' : ''} 
               onClick={() => setActiveTab('verification')}
             >
-              Verification Queue
+              <FileCheck size={20} /> Verification Queue
             </button>
             <button 
               className={activeTab === 'audit' ? 'active' : ''} 
               onClick={() => setActiveTab('audit')}
             >
-              Activity Log
+              <Activity size={20} /> Activity Log
+            </button>
+            <button 
+              onClick={() => navigate('/messages')}
+            >
+              <MessageSquare size={20} /> Messages
             </button>
           </nav>
         </aside>
@@ -80,11 +91,16 @@ function AdminOverview() {
 
   return (
     <div className="admin-overview">
-      <h2>Platform Overview</h2>
+      <div className="admin-overview-header">
+        <h2>Platform Overview</h2>
+      </div>
       
       <div className="admin-stats-grid">
         <div className="admin-stat-card">
-          <h3>Total Users</h3>
+          <div className="stat-card-header">
+            <h3>Total Users</h3>
+            <div className="stat-icon-wrapper"><Users size={20} /></div>
+          </div>
           <p className="admin-stat-value">{stats.users.total_users}</p>
           <div className="admin-stat-details">
             <span>Agents: {stats.users.total_agents}</span>
@@ -93,7 +109,10 @@ function AdminOverview() {
         </div>
 
         <div className="admin-stat-card">
-          <h3>Listings</h3>
+          <div className="stat-card-header">
+            <h3>Listings</h3>
+            <div className="stat-icon-wrapper"><Home size={20} /></div>
+          </div>
           <p className="admin-stat-value">{stats.listings.total_listings}</p>
           <div className="admin-stat-details">
             <span>Published: {stats.listings.published_listings}</span>
@@ -102,13 +121,19 @@ function AdminOverview() {
         </div>
 
         <div className="admin-stat-card">
-          <h3>Verification</h3>
+          <div className="stat-card-header">
+            <h3>Verification</h3>
+            <div className="stat-icon-wrapper"><FileCheck size={20} /></div>
+          </div>
           <p className="admin-stat-value">{stats.verification.pending_kyc}</p>
           <p className="admin-stat-label">Pending KYC</p>
         </div>
 
         <div className="admin-stat-card">
-          <h3>Activity</h3>
+          <div className="stat-card-header">
+            <h3>Activity</h3>
+            <div className="stat-icon-wrapper"><Activity size={20} /></div>
+          </div>
           <div className="admin-stat-details">
             <span>Views: {stats.activity.total_views}</span>
             <span>Favorites: {stats.activity.total_favorites}</span>
@@ -287,7 +312,19 @@ function AdminVerification() {
                 <td>{k.name} <br/><small>{k.email}</small></td>
                 <td>{k.role}</td>
                 <td>
-                  <a href={k.document_url} target="_blank" rel="noreferrer">View {k.document_type}</a>
+                  <button 
+                    className="btn-view-doc" 
+                    onClick={async () => {
+                      try {
+                        const res = await adminService.getKycDocumentUrl(k.id);
+                        if (res.url) window.open(res.url, '_blank');
+                      } catch (err) {
+                        alert('Failed to load document');
+                      }
+                    }}
+                  >
+                    View {k.document_type}
+                  </button>
                 </td>
                 <td><span className={`admin-badge ver-${k.status}`}>{k.status}</span></td>
                 <td>{new Date(k.uploaded_at).toLocaleDateString()}</td>
@@ -367,3 +404,5 @@ function AdminAuditLog() {
     </div>
   );
 }
+
+

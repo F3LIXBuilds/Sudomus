@@ -456,7 +456,7 @@ export default function PropertyDetails() {
             {/* Key Features Bar */}
             <div className="key-features-bar">
               <div className="key-feature-item">
-                <Bed size={22} className="feature-icon" />
+                <Bed size={22} className="property-feature-icon" />
                 <div>
                   <span className="feature-val">{listing.bedrooms ?? 0}</span>
                   <span className="feature-lbl">Bedrooms</span>
@@ -464,7 +464,7 @@ export default function PropertyDetails() {
               </div>
 
               <div className="key-feature-item">
-                <Bath size={22} className="feature-icon" />
+                <Bath size={22} className="property-feature-icon" />
                 <div>
                   <span className="feature-val">{listing.bathrooms ?? 0}</span>
                   <span className="feature-lbl">Bathrooms</span>
@@ -473,7 +473,7 @@ export default function PropertyDetails() {
 
               {listing.toilets !== undefined && listing.toilets !== null && Number(listing.toilets) > 0 && (
                 <div className="key-feature-item">
-                  <Bath size={22} className="feature-icon" />
+                  <Bath size={22} className="property-feature-icon" />
                   <div>
                     <span className="feature-val">{listing.toilets}</span>
                     <span className="feature-lbl">Toilets</span>
@@ -483,7 +483,7 @@ export default function PropertyDetails() {
 
               {listing.parking_spaces !== undefined && listing.parking_spaces !== null && Number(listing.parking_spaces) > 0 && (
                 <div className="key-feature-item">
-                  <Car size={22} className="feature-icon" />
+                  <Car size={22} className="property-feature-icon" />
                   <div>
                     <span className="feature-val">{listing.parking_spaces}</span>
                     <span className="feature-lbl">Parking</span>
@@ -492,7 +492,7 @@ export default function PropertyDetails() {
               )}
 
               <div className="key-feature-item">
-                <Compass size={22} className="feature-icon" />
+                <Compass size={22} className="property-feature-icon" />
                 <div>
                   <span className="feature-val">{listing.land_size ? Number(listing.land_size).toLocaleString() : '0'}</span>
                   <span className="feature-lbl">sq ft</span>
@@ -587,7 +587,12 @@ export default function PropertyDetails() {
                   )}
                 </div>
                 <div className="agent-info-text">
-                  <h3>{listing.agent_name || 'Listing Consultant'}</h3>
+                  <h3 style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    {listing.agent_name || 'Listing Consultant'}
+                    {listing.agent_verified && (
+                      <ShieldCheck size={18} color="#10b981" title="Verified Agent" />
+                    )}
+                  </h3>
                   {listing.agent_verified ? (
                     <span className="agent-role-label verified">
                       <ShieldCheck size={13} /> Verified {listing.agent_role === 'seller' ? 'Seller' : 'Agent'}

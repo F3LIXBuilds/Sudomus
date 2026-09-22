@@ -20,6 +20,7 @@ import { PropertyForm } from '../components/properties/PropertyForm';
 import { PropertyCard } from '../components/properties/PropertyCard';
 import { listingsService, dashboardService } from '../services/api';
 import { ProfileSettings } from '../components/profile/ProfileSettings';
+import { WalletManager } from '../components/wallet/WalletManager';
 import './AgentDashboard.css';
 
 export default function AgentDashboard() {
@@ -36,6 +37,15 @@ export default function AgentDashboard() {
   
   const [dashboardData, setDashboardData] = useState(null);
   const [dashboardLoading, setDashboardLoading] = useState(true);
+
+  const handleTabChange = (tab) => {
+    if (tab === 'messages') {
+      navigate('/messages');
+      return;
+    }
+    setActiveTab(tab);
+    setMobileOpen(false);
+  };
 
   const fetchDashboardData = async () => {
     setDashboardLoading(true);
@@ -84,7 +94,7 @@ export default function AgentDashboard() {
   // Fetch on mount / tab change
   useEffect(() => {
     if (user && (profile?.user_type === 'agent' || profile?.user_type === 'seller')) {
-      if (activeTab === 'overview') {
+      if (activeTab === 'overview' || activeTab === 'notifications') {
         fetchDashboardData();
       } else if (activeTab === 'properties') {
         fetchListings();
@@ -245,7 +255,7 @@ export default function AgentDashboard() {
                     ) : (
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
                         {dashboardData.recentMessages.map(msg => (
-                          <div key={msg.id} style={{ padding: '0.75rem', borderRadius: '8px', background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.05)' }}>
+                          <div key={msg.id} onClick={() => navigate(`/messages?conversation=${msg.conversation_id}`)} role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') navigate(`/messages?conversation=${msg.conversation_id}`); }} style={{ padding: '0.75rem', borderRadius: '8px', background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.05)', cursor: 'pointer' }}>
                             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
                               <span style={{ fontWeight: '600', fontSize: '0.95rem' }}>{msg.sender_name}</span>
                               <span style={{ fontSize: '0.75rem', color: '#a0aec0' }}>{new Date(msg.created_at).toLocaleDateString()}</span>
@@ -258,27 +268,49 @@ export default function AgentDashboard() {
                   </div>
                 </div>
 
-                {/* Upcoming Appointments */}
-                <div className="dashboard-section-box" style={{ background: 'var(--card-bg, #1a1f2c)', padding: '1.5rem', borderRadius: '12px', border: '1px solid var(--border-color, #2d3748)', marginTop: '1.5rem' }}>
-                  <h3 className="section-heading" style={{ fontSize: '1.2rem', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <Calendar size={18} /> Upcoming Appointments
-                  </h3>
-                  {dashboardData.upcomingAppointments.length === 0 ? (
-                    <p style={{ color: '#a0aec0', fontSize: '0.95rem' }}>No upcoming viewings scheduled.</p>
-                  ) : (
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '1rem' }}>
-                      {dashboardData.upcomingAppointments.map(appt => (
-                        <div key={appt.id} style={{ padding: '1rem', borderRadius: '8px', background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.05)', display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                          <span style={{ fontSize: '0.8rem', textTransform: 'uppercase', color: '#6366f1', fontWeight: 'bold' }}>{appt.status}</span>
-                          <h4 style={{ margin: 0, fontSize: '1rem', fontWeight: '600' }}>{appt.listing_title}</h4>
-                          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.85rem', color: '#a0aec0', marginTop: '4px' }}>
-                            <span>Buyer: {appt.buyer_name}</span>
-                            <span>{new Date(appt.appointment_date).toLocaleString([], { dateStyle: 'short', timeStyle: 'short' })}</span>
+                {/* Bottom Sections Grid */}
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))', gap: '1.5rem', marginTop: '1.5rem' }}>
+                  {/* Upcoming Appointments */}
+                  <div className="dashboard-section-box" style={{ background: 'var(--card-bg, #1a1f2c)', padding: '1.5rem', borderRadius: '12px', border: '1px solid var(--border-color, #2d3748)' }}>
+                    <h3 className="section-heading" style={{ fontSize: '1.2rem', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <Calendar size={18} /> Upcoming Appointments
+                    </h3>
+                    {dashboardData.upcomingAppointments.length === 0 ? (
+                      <p style={{ color: '#a0aec0', fontSize: '0.95rem' }}>No upcoming viewings scheduled.</p>
+                    ) : (
+                      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '1rem' }}>
+                        {dashboardData.upcomingAppointments.map(appt => (
+                          <div key={appt.id} style={{ padding: '1rem', borderRadius: '8px', background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.05)', display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                            <span style={{ fontSize: '0.8rem', textTransform: 'uppercase', color: '#6366f1', fontWeight: 'bold' }}>{appt.status}</span>
+                            <h4 style={{ margin: 0, fontSize: '1rem', fontWeight: '600' }}>{appt.listing_title}</h4>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.85rem', color: '#a0aec0', marginTop: '4px' }}>
+                              <span>Buyer: {appt.buyer_name}</span>
+                              <span>{new Date(appt.appointment_date).toLocaleString([], { dateStyle: 'short', timeStyle: 'short' })}</span>
+                            </div>
                           </div>
-                        </div>
-                      ))}
-                    </div>
-                  )}
+                        ))}
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Notifications */}
+                  <div className="dashboard-section-box" style={{ background: 'var(--card-bg, #1a1f2c)', padding: '1.5rem', borderRadius: '12px', border: '1px solid var(--border-color, #2d3748)' }}>
+                    <h3 className="section-heading" style={{ fontSize: '1.2rem', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <Bell size={18} /> Notifications
+                    </h3>
+                    {!dashboardData.notifications || dashboardData.notifications.length === 0 ? (
+                      <p style={{ color: '#a0aec0', fontSize: '0.95rem' }}>No new notifications.</p>
+                    ) : (
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                        {dashboardData.notifications.slice(0, 5).map(notif => (
+                          <div key={notif.id} style={{ padding: '0.75rem', borderRadius: '8px', background: notif.is_read ? 'rgba(255,255,255,0.01)' : 'rgba(99,102,241,0.05)', border: '1px solid rgba(255,255,255,0.03)' }}>
+                            <h4 style={{ fontSize: '0.9rem', margin: 0, fontWeight: notif.is_read ? '500' : 'bold' }}>{notif.title}</h4>
+                            <p style={{ fontSize: '0.8rem', color: '#a0aec0', margin: '2px 0 0 0' }}>{notif.body}</p>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
                 </div>
               </>
             )}
@@ -369,8 +401,42 @@ export default function AgentDashboard() {
       case 'kyc':
         return (
           <div className="agent-dashboard-content">
-            <h2 className="dashboard-title">KYC Verification</h2>
             <AgentKYCManager />
+          </div>
+        );
+      case 'wallet':
+        return (
+          <div className="agent-dashboard-content">
+            <h2 className="dashboard-title">Wallet Management</h2>
+            <WalletManager />
+          </div>
+        );
+      case 'notifications':
+        return (
+          <div className="agent-dashboard-content">
+            <div className="dashboard-header">
+              <h2 className="dashboard-title">Notifications</h2>
+            </div>
+            <div className="dashboard-section-box" style={{ background: 'var(--card-bg, #1a1f2c)', padding: '1.5rem', borderRadius: '12px', border: '1px solid var(--border-color, #2d3748)' }}>
+              {!dashboardData.notifications || dashboardData.notifications.length === 0 ? (
+                <p style={{ color: '#a0aec0', fontSize: '0.95rem' }}>You have no notifications.</p>
+              ) : (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                  {dashboardData.notifications.map(notif => (
+                    <div key={notif.id} style={{ padding: '1rem', borderRadius: '8px', background: notif.is_read ? 'rgba(255,255,255,0.02)' : 'rgba(99,102,241,0.08)', border: '1px solid rgba(255,255,255,0.05)' }}>
+                      <h4 style={{ fontSize: '1.05rem', margin: 0, fontWeight: notif.is_read ? '500' : 'bold', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                        {notif.title}
+                        {!notif.is_read && <span style={{ fontSize: '0.7rem', backgroundColor: '#6366f1', color: '#fff', padding: '2px 6px', borderRadius: '12px' }}>New</span>}
+                      </h4>
+                      <p style={{ fontSize: '0.9rem', color: '#cbd5e1', margin: '0.5rem 0 0 0' }}>{notif.body}</p>
+                      <div style={{ fontSize: '0.75rem', color: '#64748b', marginTop: '0.5rem' }}>
+                        {new Date(notif.created_at).toLocaleString()}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
         );
       case 'profile':
@@ -384,7 +450,7 @@ export default function AgentDashboard() {
     <div className="dashboard">
       <Sidebar
         activeTab={activeTab}
-        onTabChange={setActiveTab}
+        onTabChange={handleTabChange}
         userType={profile?.user_type}
         isCollapsed={isCollapsed}
         onToggle={() => setIsCollapsed(prev => !prev)}
